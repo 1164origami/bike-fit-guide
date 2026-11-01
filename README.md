@@ -138,3 +138,7 @@ MIT © [1164origami](https://github.com/1164origami)
 新增 [症状驱动 Bike Fit 复测流程](references/symptom_led_fit.md)，可结合经用户授权的高驰/COROS、Intervals.icu运动记录与主观疼痛、RPE、坐垫变更历史，制定**复测优先级、单变量调整方案和短骑验证步骤**。本Skill本身不会自动连接账户，也不能替代医生诊断。
 
 本次安全修订重点：明确膝关节角度的两种记法、移除将10–15°坐垫下倾作为常规腰痛处方的误用、移除固定剂量自行服用NSAIDs的建议、改正「视频分析解决80%问题」「75%伤病来自装备」之类证据不足的百分比，避免强制压痛性泡沫轴。公开仓库不得上传私人运动记录、全GPS路线或身份信息。
+
+## 🧪 复核与可回归验证
+
+通过 `python tests/validate_skill.py` 进行文档结构与关键安全措辞的静态检查；通过 [tests/scenarios.md](tests/scenarios.md) 中的合成问句进行 Codex 实际调用验证。**GitHub Actions 通过不等于真实训练建议经过临床验证**，尤其是持续疼痛或神经症状。

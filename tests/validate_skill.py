@@ -42,6 +42,37 @@ if re.search(r"(?i)(?:openclaw|qclaw|\\.qclaw)", content):
 if not (ROOT / "AGENTS.md").exists():
     errors.append("missing Codex maintenance guidance")
 
+# Skill identity and Codex interface sanity checks.
+skill_text = skill.read_text(encoding="utf-8") if skill.exists() else ""
+meta = re.match(r"\A---\n(.*?)\n---\n", skill_text, flags=re.S)
+if not meta:
+    errors.append("missing valid SKILL.md frontmatter")
+else:
+    frontmatter = meta.group(1)
+    name_match = re.search(r"(?m)^name:\s*([a-z0-9-]+)\s*$", frontmatter)
+    if not name_match or name_match.group(1) != ROOT.name:
+        errors.append("Skill name must match directory name")
+    if not re.search(r"(?m)^description:\s*(?:>|[^\n]+)$", frontmatter):
+        errors.append("Skill description is missing")
+    if name_match and len(name_match.group(1)) > 64:
+        errors.append("Skill name exceeds length limit")
+
+ui = ROOT / "agents/openai.yaml"
+if ui.exists():
+    ui_text = ui.read_text(encoding="utf-8")
+    if not re.search(r"(?m)^interface:\s*$", ui_text):
+        errors.append("Codex UI metadata missing interface section")
+    if "$" + ROOT.name not in ui_text:
+        errors.append("Codex default prompt must mention $skill-name")
+
+if not (ROOT / "tests/scenarios.md").exists():
+    errors.append("Manual skill routing scenarios missing")
+dynamic = ROOT / "references/dynamic_fitting.md"
+if dynamic.exists():
+    d = dynamic.read_text(encoding="utf-8")
+    if "屈曲量" not in d or "内角" not in d:
+        errors.append("Dynamic joint angles must distinguish internal angle and flexion")
+
 if errors:
     print("Bike-fit skill validation failed:")
     for error in errors:
