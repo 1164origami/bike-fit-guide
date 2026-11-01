@@ -1,0 +1,14 @@
+{
+  "repository": "1164origami/bike-fit-guide",
+  "description": "Codex-first Agent Skill for bike fitting, cycling posture, saddle and handlebar setup, and evidence-aware comfort troubleshooting.",
+  "topics": [
+    "codex",
+    "agent-skills",
+    "cycling",
+    "bike-fit",
+    "bike-fitting",
+    "cycling-posture",
+    "ergonomics",
+    "sports-science"
+  ]
+}

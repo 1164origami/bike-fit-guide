@@ -9,3 +9,9 @@
 - 涉及 COROS / Intervals.icu 的整合必须经用户授权，保持默认只读。不要把真实个人数据、GPS轨迹或账户凭据写入公开仓库。
 - 完成改动后运行 `python tests/validate_skill.py`；同时检查 Markdown 相对链接，以及 `agents/openai.yaml` 的可读性。
 - 遇到与功率训练的交叉议题，请参考另一个仓库 `1164origami/cycling-power-coach`，但不要重复复制其中的整个参考内容。
+
+## GitHub About 元数据维护
+
+- `.github/repository-about.json` 是本仓库期望的 Description 与 Topics 配置；`scripts/sync-github-about.ps1` 在**用户本地已授权**的 GitHub CLI 中应用设置。
+- 不要误称「git commit 自动修改仓库 Description/Topics」；对仓库元数据进行实际修改需要有相应权限的账号操作，默认不在 CI 中执行写入。
+- 用户决定变更仓库简介或 Topics 时，同步修改 JSON 与 README；只追加 Topics，避免不慎删除用户已添加的其他 Topics。

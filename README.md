@@ -142,3 +142,16 @@ MIT © [1164origami](https://github.com/1164origami)
 ## 🧪 复核与可回归验证
 
 通过 `python tests/validate_skill.py` 进行文档结构与关键安全措辞的静态检查；通过 [tests/scenarios.md](tests/scenarios.md) 中的合成问句进行 Codex 实际调用验证。**GitHub Actions 通过不等于真实训练建议经过临床验证**，尤其是持续疼痛或神经症状。
+
+## 🔖 GitHub About 与 Topics
+
+仓库 Description 与 Topics 的**期望配置**记录在 [`.github/repository-about.json`](.github/repository-about.json)。这份配置同时用于校验和可重复维护；**仅提交该文件不会改变 GitHub 仓库右侧实际的 About 设置**。
+
+在具有该仓库管理员权限、且已通过 `gh auth login` 登录的本地 PowerShell 中，运行：
+
+```powershell
+.\scripts\sync-github-about.ps1 -DryRun  # 先预览
+.\scripts\sync-github-about.ps1           # 应用并回读验证
+```
+
+若 Windows 禁止直接运行本地脚本，也可使用 `powershell -ExecutionPolicy Bypass -File .\scripts\sync-github-about.ps1`。此操作仅更新该仓库的 Description 和**添加**指定 Topics，不变更可见性、分支、代码或其他设置。要维护内容，先修改 JSON，然后重新运行脚本；Codex 可协助完成。
