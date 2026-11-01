@@ -1,0 +1,4 @@
+interface:
+  display_name: "Bike Fit Guide"
+  short_description: "骑姿优化、换坐垫复测与腰背/手麻排查"
+  default_prompt: "Use $bike-fit-guide to assess a cycling comfort or bike-fit question with symptom-led, one-change-at-a-time recommendations."

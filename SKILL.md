@@ -1,12 +1,10 @@
 ---
 name: bike-fit-guide
 description: >
-  Cycling bike fit and posture optimization guide based on Phil Burt's "BIKE FIT" methodology.
-  Use when the user asks about: bike fitting, cycling posture/position, saddle height/position,
-  handlebar setup, cleat/pedal settings, cycling pain diagnosis (knee, back, neck, hands, feet,
-  perineal), aerodynamic position, time trial position, leg length discrepancy, cycling flexibility
-  exercises, or any cycling comfort/performance optimization questions. Triggers: "bike fit",
-  "骑行姿势", "车座", "车把", "锁片", "膝盖疼", "骑行疼痛", "气动姿势", "计时赛姿势".
+  骑行姿势与Bike Fit优化：当用户询问公路车坐垫高度/后移/角度、车把落差和前伸、
+  锁片、骑姿视频、手麻、腰背/膝部不适、会阴或坐骨压力、长途舒适度、动态Bike Fit
+  与更换坐垫后的复测时使用。按症状和训练变化排查，提出一次只改一个参数的验证流程；
+  不代替医生诊断，不处理纯功率训练计划（交由cycling-power-coach）。
 ---
 
 # Bike Fit Guide

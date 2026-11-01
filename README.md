@@ -1,6 +1,6 @@
 <p align="center">
-  <img src="https://img.shields.io/badge/OpenClaw-Skill-6C5CE7?style=for-the-badge" alt="OpenClaw Skill" />
-  <img src="https://img.shields.io/badge/QClaw-Skill-6C5CE7?style=for-the-badge" alt="QClaw Skill" />
+  <img src="https://img.shields.io/badge/Codex-Skill-0A73B8?style=for-the-badge" alt="Codex Skill" />
+  <img src="https://img.shields.io/badge/Agent_Skills-Open_Standard-2A9D8F?style=for-the-badge" alt="Agent Skills" />
   <img src="https://img.shields.io/badge/License-MIT-green?style=for-the-badge" alt="MIT License" />
 </p>
 
@@ -18,13 +18,11 @@
 
 ## 📖 简介 · Introduction
 
-**Bike Fit Guide** 是一个 OpenClaw / QClaw Skill，基于菲尔·伯特（Phil Burt）《BIKE FIT：骑行姿势设定指南》提供专业的骑行姿势指导。Phil Burt 曾任英国自行车协会（British Cycling）及天空车队（Team Sky）首席理疗师。
+**Bike Fit Guide** 是一个以 **OpenAI Codex** 为主要使用环境、兼容开放 Agent Skills 规范的骑行姿势优化知识型 Skill。参考 Phil Burt 的 Bike Fit 框架，帮助骑行者排查坐垫、车把、锁片、腰背/手部压力等问题，并设计可验证的微调流程。
 
-**Bike Fit Guide** is an OpenClaw / QClaw Skill providing professional cycling bike fit guidance based on Phil Burt's *BIKE FIT* methodology. Phil Burt served as head physiotherapist for British Cycling and Team Sky.
+**Bike Fit Guide** is a Codex-first, portable Agent Skill for individualized bicycle fit and riding comfort. It combines symptom-led assessment, bike setup references and gradual, one-variable-at-a-time validation.
 
-> ⚠️ **OpenClaw / QClaw Skill** — 为 AI 助手在 OpenClaw / QClaw 生态中提供结构化骑行姿势与舒适度知识。触发关键词：bike fit、骑行姿势、车座、锁片、骑行疼痛等。
->
-> ⚠️ **OpenClaw / QClaw Skill** — provides structured cycling posture and comfort knowledge for AI assistants in the OpenClaw / QClaw ecosystem. Triggered by keywords: bike fit, cycling posture, saddle, cleats, cycling pain, etc.
+> **边界**：本 Skill 是骑姿与训练辅助资料，不能替代运动医学诊断；出现持续腰椎正中疼痛、神经麻木或危险症状，应优先进行相应评估。与训练负荷分析有关的问题可结合 [cycling-power-coach](https://github.com/1164origami/cycling-power-coach) 使用。
 
 ---
 
@@ -42,57 +40,64 @@
 
 ---
 
-## 📦 安装 · Installation
+## 📦 在 Codex 中安装 · Installation
 
-### 依赖 · Requirements
+本仓库采用标准 `SKILL.md` + `references/` 结构。个人级安装目录使用 **`$HOME/.agents/skills/`**，不依赖额外包或常驻进程。可直接安装至 Codex CLI、IDE 扩展使用的本地 Skill 目录。
 
-本 Skill 为纯知识型（Markdown），无需额外依赖。
+### Windows PowerShell（推荐）
 
-This is a knowledge-only Skill (Markdown), no additional dependencies required.
+```powershell
+$skillsRoot = Join-Path $HOME ".agents\skills"
+New-Item -ItemType Directory -Force -Path $skillsRoot | Out-Null
+git clone https://github.com/1164origami/bike-fit-guide.git (Join-Path $skillsRoot "bike-fit-guide")
+```
 
-### For OpenClaw / QClaw
+如果已经克隆过，使用 `git -C (Join-Path $HOME '.agents\skills\bike-fit-guide') pull --ff-only` 更新，不要重复克隆。
+
+### macOS / Linux
 
 ```bash
-# Option A: Git Clone（推荐 · Recommended）
-git clone https://github.com/1164origami/bike-fit-guide.git ~/.qclaw/skills/bike-fit-guide
-
-# Option B: 手动复制 · Manual Copy
-cp -r bike-fit-guide/ ~/.qclaw/skills/
-
-# Option C: OpenClaw workspace
-cp -r bike-fit-guide/ <your-openclaw-workspace>/skills/
+mkdir -p "$HOME/.agents/skills"
+git clone https://github.com/1164origami/bike-fit-guide.git "$HOME/.agents/skills/bike-fit-guide"
 ```
 
-当对话涉及骑行姿势、bike fit、舒适度等关键词时，AI 助手会自动加载此技能。
+若仅希望某个代码项目使用，可克隆到该项目的 `.agents/skills/bike-fit-guide/`。
 
-The AI assistant auto-loads this skill when triggered by cycling posture, bike fit, or comfort-related keywords.
+### 在 Codex 中调用
+
+- 显式调用：输入 `$bike-fit-guide`，或者用 `/skills` 选择该 Skill。
+- 隐式调用：Codex **可能**根据 `SKILL.md` 的 `description` 自动选择；不要把关键词匹配理解为每次都会强制触发。
+- 示例：`使用 $bike-fit-guide 对比新旧坐垫后的骑姿变化，重点检查腰背压力、手腕承重和动态复测方案。`
+- 本地更新若没有立即显示，可重启 Codex；参考 [Codex Skills 官方文档](https://developers.openai.com/codex/skills)。
+
+### 运动数据的使用边界
+
+可以与**另行获得授权**的 COROS/高驰、Intervals.icu 数据配合；本 Skill 本身不会自动连接账户、收集个人运动数据或修改设备设置。公开仓库禁止写入个人运动日志、完整GPS轨迹或访问令牌。
 
 ---
-
 ## 🗂️ 文件结构 · Structure
 
-```
+```text
 bike-fit-guide/
-├── SKILL.md                              # 核心技能定义 · Core skill definition
-├── README.md                             # 本文件 · This file
-├── LICENSE                               # MIT License
-├── .gitignore
-└── references/                           # 参考知识库 · Reference knowledge base
-    ├── bike-fit-parameters.md            # 参数与角度标准 · Parameters & angle standards
-    ├── common-misconceptions.md          # 常见骑行误区 · Common misconceptions
-    ├── dynamic_fitting.md                # 动态 Bike Fit · Dynamic fitting
-    ├── flexibility-and-recording.md      # 柔韧性训练 · Flexibility training
-    ├── injury_prevention.md
-    └── symptom_led_fit.md                # 骑姿+症状+训练数据的联合复测流程              # 伤病预防与康复 · Injury prevention & rehab
+├── SKILL.md                    # Codex Skill 描述和工作流程
+├── README.md                   # 安装和项目说明
+├── AGENTS.md                   # Codex 维护仓库时的约束
+├── agents/openai.yaml          # 可选的 Codex 展示元数据
+├── references/
+│   ├── bike-fit-parameters.md
+│   ├── common-misconceptions.md
+│   ├── dynamic_fitting.md
+│   ├── flexibility-and-recording.md
+│   ├── injury_prevention.md
+│   └── symptom_led_fit.md
+├── tests/validate_skill.py     # 链接/规则静态校验
+└── .github/workflows/skill-validation.yml
 ```
 
 ---
-
 ## 🚀 使用示例 · Usage
 
-当用户提出以下问题时，AI 会自动加载此技能：
-
-When the user asks any of the following, the AI loads this skill:
+以下是适合用 `$bike-fit-guide` 显式触发的典型场景；自然语言提问也可能被 Codex 自动匹配：
 
 | 中文 | English |
 |------|---------|
@@ -125,10 +130,10 @@ MIT © [1164origami](https://github.com/1164origami)
 <p align="center">
   <sub>为骑行者打造，由骑行者打造 · Made for cyclists, by cyclists</sub>
   <br/>
-  <sub>Built for OpenClaw & QClaw</sub>
+  <sub>Codex-first · Open Agent Skills</sub>
 </p>
 
-## 2026-11 更新：症状驱动与跨平台联动
+## 🧩 近期方法论更新：症状驱动与跨平台联动
 
 新增 [症状驱动 Bike Fit 复测流程](references/symptom_led_fit.md)，可结合经用户授权的高驰/COROS、Intervals.icu运动记录与主观疼痛、RPE、坐垫变更历史，制定**复测优先级、单变量调整方案和短骑验证步骤**。本Skill本身不会自动连接账户，也不能替代医生诊断。
 

@@ -34,6 +34,14 @@ for label, pattern in banned.items():
 if not (ROOT / "references/symptom_led_fit.md").exists():
     errors.append("missing symptom-driven fitting protocol")
 
+# Codex-first discoverability and legacy-brand regression checks
+if not (ROOT / "agents/openai.yaml").exists():
+    errors.append("missing optional Codex interface metadata expected by this repository")
+if re.search(r"(?i)(?:openclaw|qclaw|\\.qclaw)", content):
+    errors.append("outdated platform branding in Markdown")
+if not (ROOT / "AGENTS.md").exists():
+    errors.append("missing Codex maintenance guidance")
+
 if errors:
     print("Bike-fit skill validation failed:")
     for error in errors:
